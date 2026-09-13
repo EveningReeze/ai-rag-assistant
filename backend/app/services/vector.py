@@ -1,8 +1,12 @@
 # backend/app/services/vector.py
+import os
+
+os.environ.setdefault("HF_HOME", "/app/.cache/huggingface")
 import uuid
 from pinecone import Pinecone, ServerlessSpec
 from sentence_transformers import SentenceTransformer
 from app.config import settings
+
 
 # ---- 初始化向量模型（本地） ----
 # 第一次运行会下载约 100MB 的模型文件，缓存在本地

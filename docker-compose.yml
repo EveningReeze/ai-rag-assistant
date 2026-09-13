@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-rag-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - HF_ENDPOINT=https://hf-mirror.com
+      - HF_HOME=/app/.cache/huggingface
+    volumes:
+      - hf_cache:/app/.cache/huggingface
+    networks:
+      - ai-rag-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
+    container_name: ai-rag-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - ai-rag-net
+
+volumes:
+  hf_cache:
+
+networks:
+  ai-rag-net:
+    driver: bridge
