@@ -24,7 +24,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        - NEXT_PUBLIC_API_URL=http://localhost:8000
+        - NEXT_PUBLIC_API_URL=http://47.82.1.82:8000
     container_name: ai-rag-frontend
     restart: unless-stopped
     ports:
